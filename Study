@@ -1,0 +1,29 @@
+git clone https://github.com/asikrasool/housecommerce.git
+
+cd housecommerce
+
+make changes
+
+git status 
+
+git add filename     git add . (all modified files)
+
+
+git commit -m "my commit message"
+
+
+git push
+
+
+git commit --amend --reset-author
+
+
+
+node 
+
+npm init -y
+
+
+
+
+ 
