@@ -22,6 +22,29 @@ var House = mongoose.model('House',{
 })
 
 
+app.get('/getHousesBySqfeet/:sqft',(req,res) => {
+
+var UserSqfeet = req.params.sqft;
+House.find({Sqfeet : {$gt : UserSqfeet }  }).then((result)=>{
+console.log("House Found",result)
+res.status(200).send(result)
+
+}).catch(err=>{
+
+	console.log("house not found",err)
+	res.status(500)
+})
+
+
+
+
+
+
+})
+
+
+
+
 
 
 app.get('/getAllHouses',(req,res) =>{
@@ -32,6 +55,26 @@ app.get('/getAllHouses',(req,res) =>{
 
 	});
 });
+
+
+
+app.get('/getHousesByAdd/:add',(req,res)=>{
+var Add = req.params.add;
+
+House.find({Address:Add}).then((result)=>{
+	console.log("Address Found",result)
+	res.status(200).send(result)
+}).catch(err=>{
+	console.log('Address not found',err)
+	res.status(500).json({
+		message:'address not found'
+	})
+})
+
+})
+
+
+
 
 
 app.get('/getHousesById/:id',(req,res)=>{
