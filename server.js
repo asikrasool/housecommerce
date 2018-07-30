@@ -22,6 +22,8 @@ var House = mongoose.model('House',{
 })
 
 
+
+
 app.get('/getAllHouses',(req,res) =>{
 	House.find().then((house)=>{
 		res.status(200).send(house)
@@ -31,6 +33,28 @@ app.get('/getAllHouses',(req,res) =>{
 	});
 });
 
+
+app.get('/getHousesById/:id',(req,res)=>{
+	var id = req.params.id;
+
+	House.find({_id:id}).then((result)=>{
+		console.log("Id Found",result)
+		res.status(200).send(result)
+	}).catch(err=>{
+		console.log("Id Not Found",err)
+		res.status(400).json({
+			message:'house not found'
+		})
+	})
+
+})
+
+
+app.get('/', function (req, res) {
+	// body...
+	console.log(__filename);
+	res.sendFile(`${__dirname}/public/index.html`);
+})
 
 
 app.post('/addNewHouses', (req,res) => {
