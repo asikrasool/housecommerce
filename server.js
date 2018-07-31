@@ -21,6 +21,65 @@ var House = mongoose.model('House',{
 	OwnerName: String
 })
 
+app.post('/addNewHouses', (req,res) => {
+	
+	var house = new House(req.body)
+
+	var newHouse = house.save().then((result)=>{
+ 		console.log("Successfully Saved", result)
+ 		res.status(200).json({
+ 			message: 'Success'
+ 		})
+	}).catch(err => {
+		console.log("Failed to save",err)	
+		res.status(500).json({
+			message: 'Failed to save House.'
+		})
+	})
+
+	console.log(req.body)
+	
+
+
+})
+
+
+
+app.post('/updatehouse/:id',(req,res)=>{
+	//console.log(req.body);
+	House.updateOne({_id:req.params.id}, {Address: req.body.Address, Sqfeet: req.body.Sqfeet, Price: req.body.Price, OwnerName:req.body.OwnerName}).then((result)=>{
+	console.log("House Updated",result)
+	res.status(200).send(result)
+}).catch(err=>{
+	console.log("House Update Failed",err)
+	res.status(500).send({
+		message: 'House Update Failed'
+	})
+})
+
+
+})
+
+
+
+
+app.delete('/deleteById/:id',(req,res)=>{
+	//console.log(req.body);
+	House.remove({_id:req.params.id}).then((result)=>{
+	console.log("House Updated",result)
+	res.status(200).send(result)
+}).catch(err=>{
+	console.log("House Update Failed",err)
+	res.status(500).send({
+		message: 'House Update Failed'
+	})
+})
+
+
+})
+
+
+
 
 app.get('/getHousesBySqfeet/:sqft',(req,res) => {
 
@@ -35,14 +94,7 @@ res.status(200).send(result)
 	res.status(500)
 })
 
-
-
-
-
-
 })
-
-
 
 
 
@@ -76,7 +128,6 @@ House.find({Address:Add}).then((result)=>{
 
 
 
-
 app.get('/getHousesById/:id',(req,res)=>{
 	var id = req.params.id;
 
@@ -100,36 +151,13 @@ app.get('/', function (req, res) {
 })
 
 
-app.post('/addNewHouses', (req,res) => {
-	
-	var house = new House(req.body)
 
-	var newHouse = house.save().then((result)=>{
- 		console.log("Successfully Saved", result)
- 		res.status(200).json({
- 			message: 'Success'
- 		})
-	}).catch(err => {
-		console.log("Failed to save",err)	
-		res.status(500).json({
-			message: 'Failed to save House.'
-		})
-	})
-
-	
-
-	console.log(req.body)
-	
-
-
-})
 
 
 app.get('/message',(req,res) =>{
 	res.send("hello")
 
 })
-
 
 
 var server = app.listen(8080,function(err){
